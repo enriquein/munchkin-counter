@@ -37,9 +37,17 @@
             vertical-align: bottom;
         }
 
+        .total-text {
+            font-size: 48px;
+            vertical-align: baseline;
+            color: green;
+        }
+
         .label-text {
             font-size: 18px;
         }
+
+        .toggled { max-height: 5px; min-height: 5px; height: 5px; }
     </style>
 
     <script>
@@ -50,19 +58,61 @@
         app.controller('appController', function appControler() {
             this.playerNum = 0;
             this.gameStarted = false;
+            this.players = [];
+
+            this.newPlayer = function(playerNumber) {
+                return {
+                    name: "Player " + playerNumber,
+                    level: 0,
+                    bonuses: 0,
+                    curses: 0,
+                    total: function() {
+                        var result = this.level + this.bonuses - this.curses;
+                        return result < 0 ? 0 : result;
+                    }
+                };
+            };
 
             this.startGame = function() {
-                console.log('we here');
-                if (Number(this.playerNum) > 0) {
+                this.playerNum = Number(this.playerNum);
+
+                if (this.playerNum == NaN || !this.playerNum) {
+                    this.playerNum = 0;
+                }
+
+                if (this.playerNum > 0) {
                     this.gameStarted = true;
+                }
+
+                for (let i = 1; i <= this.playerNum; i++) {
+                    this.players.push(this.newPlayer(i));
                 }
             };
 
+            this.selectAllText = function ($event) {
+                var element = $event.target;
+                element.setSelectionRange(0, element.value.length);
+            };
+
+            this.addOne = function(player, stat) {
+                player[stat] += 1;
+            };
+
+            this.removeOne = function(player, stat) {
+                player[stat] -= 1;
+
+                if (player[stat] < 0)
+                    player[stat] = 0;
+            };
+
+            this.startGame = this.startGame.bind(this);
         });
     </script>
 </head>
 
 <body ng-controller="appController as $ctrl">
+    <pre ng-class="{ 'toggled': $ctrl.toggleDebugPanel }" ng-click="$ctrl.toggleDebugPanel = !$ctrl.toggleDebugPanel">{{ $ctrl | json}}</pre>
+
     <div class="container-fluid" ng-if="!$ctrl.gameStarted">
         <div class="row">&nbsp;</div>
         <div class="row">
@@ -71,7 +121,7 @@
                     <label for="playerCount">
                         How many players are going to play?
                     </label>
-                    <input type="text" ng-model="$ctrl.playerNum" class="form-control" id="playerCount">
+                    <input type="text" ng-model="$ctrl.playerNum" ng-click="$ctrl.selectAllText($event)" class="form-control" id="playerCount">
                 </div>
 
                 <button type="button" class="btn btn-primary" ng-click="$ctrl.startGame()">Start Game</button>
@@ -82,45 +132,43 @@
     <div class="container-fluid" ng-if="$ctrl.gameStarted">
         <div class="row">&nbsp;</div>
         <div class="row">
-            <div class="col-md-3">
+            <div ng-repeat="player in $ctrl.players" class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Player 1</h3>
+                        <h3 class="panel-title" ng-bind="player.name"></h3>
                     </div>
                     <div class="panel-body">
                         <div>
-                            <span class="label-text right-margin">Level</span>
+                            <span class="label-text right-margin">Level&nbsp;&nbsp;</span>
                             <span class="right-margin">
-                                <button type="button" class="btn-lg btn-primary">+</button>
-                                <button type="button" class="btn-lg btn-primary">-</button>
+                                <button type="button" ng-click="$ctrl.addOne(player, 'level')" class="btn-lg btn-primary">+</button>
+                                <button type="button" ng-click="$ctrl.removeOne(player, 'level')" class="btn-lg btn-primary">-</button>
                             </span>
-                            <span class="level-text">1</span>
+                            <span class="level-text" ng-bind="player.level"></span>
                         </div>
                         <div class="top-margin">
                             <span class="label-text right-margin">Bonuses</span>
                             <span class="right-margin">
-                                <button type="button" class="btn-lg btn-primary">+</button>
-                                <button type="button" class="btn-lg btn-primary">-</button>
+                                <button type="button" ng-click="$ctrl.addOne(player, 'bonuses')" class="btn-lg btn-primary">+</button>
+                                <button type="button" ng-click="$ctrl.removeOne(player, 'bonuses')" class="btn-lg btn-primary">-</button>
                             </span>
-                            <span class="level-text">1</span>
+                            <span class="level-text" ng-bind="player.bonuses"></span>
                         </div>
                         <div class="top-margin">
-                            <span class="label-text right-margin">Curses</span>
+                            <span class="label-text right-margin">Curses&nbsp;</span>
                             <span class="right-margin">
-                                <button type="button" class="btn-lg btn-primary">+</button>
-                                <button type="button" class="btn-lg btn-primary">-</button>
+                                <button type="button" ng-click="$ctrl.addOne(player, 'curses')" class="btn-lg btn-primary">+</button>
+                                <button type="button" ng-click="$ctrl.removeOne(player, 'curses')" class="btn-lg btn-primary">-</button>
                             </span>
-                            <span class="level-text">1</span>
-                            <div class="top-margin">
-                                <span class="label-text right-margin">
-                                    Total
-                                </span>
-                                <span class="right-margin">
-                                    <button type="button" class="btn-lg btn-primary">+</button>
-                                    <button type="button" class="btn-lg btn-primary">-</button>
-                                </span>
-                                <span class="level-text">1</span>
-                            </div>
+                            <span class="level-text" ng-bind="player.curses"></span>
+                        <div class="top-margin">
+                            <span class="label-text right-margin">
+                                Total
+                            </span>
+                            <span class="right-margin">
+                            </span>
+                            <span class="total-text" ng-bind="player.total()"></span>
+                        </div>
                         </div>
                     </div>
                 </div>
