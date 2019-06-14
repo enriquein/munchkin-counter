@@ -56,9 +56,6 @@
         ];
         var app = angular.module('munchkin-counter', deps);
         app.controller('appController', function appControler() {
-            this.playerNum = 0;
-            this.gameStarted = false;
-            this.players = [];
 
             this.newPlayer = function(playerNumber) {
                 return {
@@ -105,7 +102,20 @@
                     player[stat] = 0;
             };
 
-            this.startGame = this.startGame.bind(this);
+            this.init = function() {
+                this.playerNum = 0;
+                this.gameStarted = false;
+                this.players = [];
+            };
+
+            this.confirmReset = function() {
+                var answer = prompt("Do you want to start a new game? (Yes or No)");
+                if (answer.toLowerCase() === "yes") {
+                    this.init();
+                }
+            }
+
+            this.init();
         });
     </script>
 </head>
@@ -173,6 +183,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-danger" ng-click="$ctrl.confirmReset()">Start new game</button>
             </div>
         </div>
 </body>
