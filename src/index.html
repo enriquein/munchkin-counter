@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html ng-app="munchkin-counter">
+
+<head>
+    <meta charset="utf-8"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-touch.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: Consolas, Menlo, monospace;
+        }
+
+        .nav,
+        .pagination,
+        .carousel,
+        .panel-title a {
+            cursor: pointer;
+        }
+
+        .top-margin {
+            margin-top: 35px;
+        }
+
+        .right-margin {
+            margin-right: 15px;
+        }
+
+        .level-text {
+            font-size: 36px;
+            vertical-align: bottom;
+        }
+
+        .label-text {
+            font-size: 18px;
+        }
+    </style>
+
+    <script>
+        var deps = [
+            'ui.bootstrap'
+        ];
+        var app = angular.module('munchkin-counter', deps);
+        app.controller('appController', function appControler() {
+            this.playerNum = 0;
+            this.gameStarted = false;
+
+            this.startGame = function() {
+                console.log('we here');
+                if (Number(this.playerNum) > 0) {
+                    this.gameStarted = true;
+                }
+            };
+
+        });
+    </script>
+</head>
+
+<body ng-controller="appController as $ctrl">
+    <div class="container-fluid" ng-if="!$ctrl.gameStarted">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="playerCount">
+                        How many players are going to play?
+                    </label>
+                    <input type="text" ng-model="$ctrl.playerNum" class="form-control" id="playerCount">
+                </div>
+
+                <button type="button" class="btn btn-primary" ng-click="$ctrl.startGame()">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" ng-if="$ctrl.gameStarted">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Player 1</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            <span class="label-text right-margin">Level</span>
+                            <span class="right-margin">
+                                <button type="button" class="btn-lg btn-primary">+</button>
+                                <button type="button" class="btn-lg btn-primary">-</button>
+                            </span>
+                            <span class="level-text">1</span>
+                        </div>
+                        <div class="top-margin">
+                            <span class="label-text right-margin">Bonuses</span>
+                            <span class="right-margin">
+                                <button type="button" class="btn-lg btn-primary">+</button>
+                                <button type="button" class="btn-lg btn-primary">-</button>
+                            </span>
+                            <span class="level-text">1</span>
+                        </div>
+                        <div class="top-margin">
+                            <span class="label-text right-margin">Curses</span>
+                            <span class="right-margin">
+                                <button type="button" class="btn-lg btn-primary">+</button>
+                                <button type="button" class="btn-lg btn-primary">-</button>
+                            </span>
+                            <span class="level-text">1</span>
+                            <div class="top-margin">
+                                <span class="label-text right-margin">
+                                    Total
+                                </span>
+                                <span class="right-margin">
+                                    <button type="button" class="btn-lg btn-primary">+</button>
+                                    <button type="button" class="btn-lg btn-primary">-</button>
+                                </span>
+                                <span class="level-text">1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
