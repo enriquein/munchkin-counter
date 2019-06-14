@@ -37,6 +37,10 @@
             vertical-align: bottom;
         }
 
+        .winner-text {
+            font-size: 24px;
+        }
+
         .total-text {
             font-size: 48px;
             vertical-align: baseline;
@@ -45,6 +49,10 @@
 
         .label-text {
             font-size: 18px;
+        }
+
+        .opaque {
+            opacity: 0.3;
         }
 
         .toggled { max-height: 5px; min-height: 5px; height: 5px; }
@@ -115,6 +123,14 @@
                 }
             }
 
+            this.isLoser = function(player) {
+                var weHaveWinner = this.players.some(function(x) {
+                    return x.level >= 10;
+                });
+
+                return weHaveWinner && player.level < 10;
+            };
+
             this.init();
         });
     </script>
@@ -142,10 +158,15 @@
         <div class="row">&nbsp;</div>
         <div class="row">
             <div ng-repeat="player in $ctrl.players" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                <div class="panel panel-default">
+                <div class="panel panel-default" ng-class="{ opaque: $ctrl.isLoser(player) }">
                     <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <input type="text" class="form-control" ng-model="player.name" ng-click="$ctrl.selectAllText($event)">
+                        <h3 class="panel-title" ng-if="player.level < 10">
+                            <input type="text" style="display: inline-block !important" class="form-control" ng-model="player.name" ng-click="$ctrl.selectAllText($event)">
+                        </h3>
+                        <h3 class="panel-title" ng-if="player.level >= 10">
+                            <span class="winner-text">
+                                🏆 👑 {{ player.name}} wins! 👑 🏆
+                            </span>
                         </h3>
                     </div>
                     <div class="panel-body">
