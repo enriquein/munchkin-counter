@@ -111,12 +111,11 @@
 </head>
 
 <body ng-controller="appController as $ctrl">
-    <pre ng-class="{ 'toggled': $ctrl.toggleDebugPanel }" ng-click="$ctrl.toggleDebugPanel = !$ctrl.toggleDebugPanel">{{ $ctrl | json}}</pre>
-
+    <!-- <pre ng-class="{ 'toggled': $ctrl.toggleDebugPanel }" ng-click="$ctrl.toggleDebugPanel = !$ctrl.toggleDebugPanel">{{ $ctrl | json}}</pre> -->
     <div class="container-fluid" ng-if="!$ctrl.gameStarted">
         <div class="row">&nbsp;</div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-6">
                 <div class="form-group">
                     <label for="playerCount">
                         How many players are going to play?
@@ -132,10 +131,12 @@
     <div class="container-fluid" ng-if="$ctrl.gameStarted">
         <div class="row">&nbsp;</div>
         <div class="row">
-            <div ng-repeat="player in $ctrl.players" class="col-md-3">
+            <div ng-repeat="player in $ctrl.players" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title" ng-bind="player.name"></h3>
+                        <h3 class="panel-title">
+                            <input type="text" class="form-control" ng-model="player.name" ng-click="$ctrl.selectAllText($event)">
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <div>
