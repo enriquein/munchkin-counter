@@ -104,14 +104,21 @@
             };
 
             this.addOne = function(player, stat) {
+                var levelMax = stat === 'level' ? 10 : 999;
+
                 player[stat] += 1;
+
+                if (player[stat] > levelMax) {
+                    player[stat] = levelMax;
+                }
             };
 
             this.removeOne = function(player, stat) {
+                var levelMin = stat === 'level' ? 1 : 0;
                 player[stat] -= 1;
 
-                if (player[stat] < 0)
-                    player[stat] = 0;
+                if (player[stat] < levelMin)
+                    player[stat] = levelMin;
             };
 
             this.init = function() {
