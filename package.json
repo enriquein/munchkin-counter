@@ -1,0 +1,22 @@
+{
+  "name": "munchkin-counter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enriquein/munchkin-counter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enriquein/munchkin-counter/issues"
+  },
+  "homepage": "https://github.com/enriquein/munchkin-counter#readme",
+  "devDependencies": {
+    "vue": "^2.6.10"
+  }
+}
