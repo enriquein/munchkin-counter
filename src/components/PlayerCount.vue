@@ -21,8 +21,14 @@ export default {
             get() {
                 return this.$store.state.playerNum;
             },
-            set(value) {
-                let playerNum = Number(value);
+            set(value: string) {
+                let playerNum = value.replace(/\D+/i, '');
+
+                // Super duper hack to force vue to refresh the value
+                if (playerNum.length !== value.length) {
+                    this.$store.commit('setPlayerNum', { playerNum: 0 });
+                }
+
                 this.$store.commit('setPlayerNum', { playerNum });
             }
         }
