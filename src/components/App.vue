@@ -5,7 +5,7 @@
             .row
                 .col-md-12 &nbsp;
             .row
-                Player(v-for="(player, index) in players" :key="player.name" :player-index="index")
+                Player(v-for="(player, index) in players" :player-index="index")
 
 </template>
 
