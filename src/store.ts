@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { findIndex } from 'lodash';
+import Player from './player';
 
 Vue.use(Vuex);
 
@@ -8,23 +9,21 @@ let store = new Vuex.Store({
     state: {
         playerNum: 0,
         gameStarted: false,
+        gameOver: false,
         players: []
-    },
-    getters: {
-        getPlayerStat: state => (index, stat) => state.players[index][stat],
-        getWinningPlayerIndex: state => {
-            if (state.players.length === 0)
-                return -1;
-
-            return findIndex(state.players, player => player.level >= 10);
-        }
     },
     mutations: {
         setPlayerNum (state, payload) {
             state.playerNum = payload.playerNum;
         },
         startGame (state) {
-            state.gameStarted = true;
+            if (state.playerNum > 0) {
+                state.gameStarted = true;
+
+                for (let i = 1; i <= state.playerNum; i++) {
+                    state.players.push(new Player(i));
+                }
+            }
         },
         resetGame (state) {
             state.gameStarted = false;
@@ -35,10 +34,20 @@ let store = new Vuex.Store({
         },
         incrementStat (state, payload) {
             state.players[payload.index][payload.stat]++;
+
+            if (payload.stat === 'level' && state.players[payload.index].level >= 10)
+                state.gameOver = true;
         },
         decrementStat (state, payload) {
-            if (state.players[payload.index][payload.stat] > 0)
-                state.players[payload.index][payload.stat]--;
+            if (state.players[payload.index][payload.stat] <= 0)
+                return;
+
+            state.players[payload.index][payload.stat]--;
+
+            // Need to reset gameOver if we ended prematurely by mistake and this
+            // decrement was intended to remove winner/gameOver status
+            if (state.gameOver === true)
+                state.gameOver = findIndex(state.players, player => player.level >= 10) >= 0;
         }
     }
 });

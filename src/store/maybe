@@ -1,0 +1,4 @@
+Maybe place store configuration here? If you end up wanting to see how modules look/work, then place them here.
+
+Also add a mutation-types file where we document all mutation types as consts. Added bonus, add also interface
+definitions for mutation payload types, just to get a feel for how would that work and benefit the project.

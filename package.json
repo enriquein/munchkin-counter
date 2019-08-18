@@ -19,6 +19,7 @@
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.0.0",
     "pug": "^2.0.4",
+    "stylus": "^0.54.5",
     "typescript": "^3.5.3",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
@@ -28,6 +29,6 @@
     "vue-hot-reload-api": "^2.3.3"
   },
   "alias": {
-    "vue" : "./node_modules/vue/dist/vue.common.js"
+    "vue": "./node_modules/vue/dist/vue.common.js"
   }
 }
