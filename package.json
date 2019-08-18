@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "del /S /Q dist && parcel build --no-source-maps --public-url ./ src\\index.html",
-    "build-linux": "rm -rf ./dist && parcel build --no-source-maps --public-url ./ src/index.html",
-    "dev": "parcel -d .dev-mode src\\index.html"
+    "build": "del /S /Q dist && parcel build --no-source-maps --public-url ./ src\\index.pug -o munchkin-counter.html",
+    "build-linux": "rm -rf ./dist && parcel build --no-source-maps --public-url ./ src/index.pug -o munchkin-counter.html",
+    "dev": "parcel -d .dev-mode src\\index.pug"
   },
   "repository": {
     "type": "git",
