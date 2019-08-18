@@ -5,13 +5,17 @@ import Player from './player';
 
 Vue.use(Vuex);
 
-let store = new Vuex.Store({
-    state: {
+let getInitialState = () => {
+    return {
         playerNum: 0,
         gameStarted: false,
         gameOver: false,
         players: []
-    },
+    };
+};
+
+let store = new Vuex.Store({
+    state: getInitialState(),
     mutations: {
         setPlayerNum (state, payload) {
             state.playerNum = payload.playerNum;
@@ -26,8 +30,7 @@ let store = new Vuex.Store({
             }
         },
         resetGame (state) {
-            state.gameStarted = false;
-            state.playerNum = 0;
+            Object.assign(state, getInitialState());
         },
         setPlayerName (state, payload) {
             state.players[payload.index].name = payload.name;
