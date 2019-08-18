@@ -3,3 +3,4 @@ deploy.sh
 node_modules/
 dist/
 .cache/
+.dev-mode

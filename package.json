@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "del /S /Q dist && parcel build --no-source-maps src\\index.html",
+    "dev": "parcel -d .dev-mode src\\index.html"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/enriquein/munchkin-counter#readme",
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.0.0",
+    "cssnano": "^4.1.10",
     "pug": "^2.0.4",
     "stylus": "^0.54.5",
     "typescript": "^3.5.3",
