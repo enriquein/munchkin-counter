@@ -13,7 +13,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex';
+import { selectAllText } from '../helpers/dom-helpers';
 
 export default {
     computed: {
@@ -34,10 +35,7 @@ export default {
         }
     },
     methods: {
-        selectAllText(e) {
-            let element = e.target;
-            element.setSelectionRange(0, element.value.length);
-        },
+        selectAllText,
         ...mapMutations([
             'startGame'
         ])
