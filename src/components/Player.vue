@@ -28,7 +28,7 @@
                 +stat("curses", true)
                 .top-margin
                     span.label-text.right-margin Total
-                    span.total-text {{ player.total() }}
+                    span.total-text {{ total() }}
 </template>
 
 <script lang="ts">
@@ -64,6 +64,10 @@ export default {
                 index: this.playerIndex,
                 stat: type
             })
+        },
+        total () {
+            var result = this.player.level + this.player.bonuses - this.player.curses;
+            return result < 0 ? 0 : result;
         },
         removeOne (type) {
             this.$store.commit('decrementStat', {
