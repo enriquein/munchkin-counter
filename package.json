@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "del /S /Q dist && parcel build --no-source-maps --public-url ./ src\\index.pug -o munchkin-counter.html",
-    "build-linux": "rm -rf ./dist && parcel build --no-source-maps --public-url ./ src/index.pug -o munchkin-counter.html",
-    "dev": "parcel -d .dev-mode src\\index.pug"
+    "buildl": "rm -rf ./dist && parcel build --no-source-maps --public-url ./ src/index.pug -o munchkin-counter.html",
+    "dev": "parcel -d .dev-mode src\\index.pug",
+    "devl": "parcel -d .dev-mode src/index.pug"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,8 @@
   "homepage": "https://github.com/enriquein/munchkin-counter#readme",
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.0.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.28",
     "cssnano": "^4.1.10",
     "pug": "^2.0.4",
     "stylus": "^0.54.5",
