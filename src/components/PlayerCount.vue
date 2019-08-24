@@ -1,14 +1,13 @@
 <template lang="pug">
-    .container-fluid
-        .row &nbsp;
-        .row
-            .col-md-4.col-sm-6
+    b-container(fluid)
+        b-row.mt-4
+            b-col(md="4" sm="6")
                 .form-group
                     label(for="playerCount")
                         | How many players are going to play?
                     input.form-control(type="text" v-model="playerNum" @click="selectAllText")
 
-                button.btn.btn-primary(type="button" @click="startGame") Start Game
+                b-button(type="button" variant="primary" @click="startGame") Start Game
 </template>
 
 <script lang="ts">

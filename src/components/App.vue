@@ -1,14 +1,12 @@
 <template lang="pug">
     #app
         PlayerCount(v-if="!gameStarted")
-        .container-fluid(v-else)
-            .row
-                .col-md-12 &nbsp;
-            .row
+        b-container(fluid v-else)
+            b-row.mt-4.mb-4
                 Player(v-for="(player, index) in players" :player-index="index")
-            .row
-                .col-md-12
-                    button.btn.btn-danger(type="button" @click="confirmReset") Start new game
+            b-row
+                b-col
+                    b-button(type="button" variant="danger" @click="confirmReset") Start new game
 </template>
 
 <script lang="ts">

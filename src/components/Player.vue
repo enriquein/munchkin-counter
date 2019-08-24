@@ -9,20 +9,20 @@
         div(class=`${hasTopMargin ? 'top-margin' : ''}`)
             span.label-text.right-margin(v-html=`'${capitalize(type)}'`)
             span.right-margin
-                button.btn-lg.btn-primary(type="button" @click=`addOne('${type}')`) +
+                b-button(variant="primary" size="lg" @click=`addOne('${type}')`) +
                 span &nbsp;
-                button.btn-lg.btn-primary(type="button" @click=`removeOne('${type}')`) -
+                b-button(variant="primary" size="lg" @click=`removeOne('${type}')`) -
             span.level-text {{ player.#{type} }}
 
 
-    .col-lg-3.col-md-4.col-sm-6.col-xs-12
-        .panel.panel-default(:class="{ opaque: gameOver && !playerIsWinner}")
-            .panel-heading
-                h3.panel-title(v-if="!playerIsWinner")
+    b-col(lg="3" md="4" sm="6" cols="12")
+        .card(:class="{ opaque: gameOver && !playerIsWinner}")
+            .card-header
+                h3(v-if="!playerIsWinner")
                     input.form-control.name-field(type="text" @click="selectAllText" v-model="name")
-                h3.panel-title(v-else)
+                h3(v-else)
                     span.winner-text 🏆 👑 {{ name }} wins! 👑 🏆
-            .panel-body
+            .card-body
                 +stat("level", false)
                 +stat("bonuses", true)
                 +stat("curses", true)
