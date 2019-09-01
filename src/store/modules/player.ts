@@ -1,39 +1,24 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
 import { findIndex } from 'lodash';
-import Player from './player';
 
-Vue.use(Vuex);
-
-let getInitialState = () => {
+function getInitialState () {
     return {
-        playerNum: 0,
-        gameStarted: false,
-        gameOver: false,
-        players: []
+        players: [],
+        playerCount: 0
     };
 };
 
-let store = new Vuex.Store({
+const playerModule = {
+    namespaced: true,
     state: getInitialState(),
     mutations: {
-        setPlayerNum (state, payload) {
-            state.playerNum = payload.playerNum;
-        },
-        startGame (state) {
-            if (state.playerNum > 0) {
+        startGame (state, payload) {
+            if (payload > 0) {
                 state.gameStarted = true;
 
                 for (let i = 1; i <= state.playerNum; i++) {
                     state.players.push(new Player(i));
                 }
             }
-        },
-        resetGame (state) {
-            Object.assign(state, getInitialState());
-        },
-        setPlayerName (state, payload) {
-            state.players[payload.index].name = payload.name;
         },
         incrementStat (state, payload) {
             state.players[payload.index][payload.stat]++;
@@ -52,7 +37,13 @@ let store = new Vuex.Store({
             if (state.gameOver === true)
                 state.gameOver = findIndex(state.players, player => player.level >= 10) >= 0;
         }
-    }
-});
+    },
+    actions: {
+        startGame ({dispatch}, playerCount) {
 
-export default store;
+        }
+    },
+  getters: { ... }
+}
+
+export default playerModule;
