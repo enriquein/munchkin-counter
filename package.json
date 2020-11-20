@@ -1,40 +1,20 @@
 {
-  "name": "munchkin-counter",
-  "version": "2.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "build": "del /S /Q dist && parcel build --no-source-maps --public-url ./ src\\index.pug -o munchkin-counter.html",
-    "buildl": "rm -rf ./dist && parcel build --no-source-maps --public-url ./ src/index.pug -o munchkin-counter.html",
-    "dev": "parcel -d .dev-mode src\\index.pug",
-    "devl": "parcel -d .dev-mode src/index.pug"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/enriquein/munchkin-counter.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/enriquein/munchkin-counter/issues"
-  },
-  "homepage": "https://github.com/enriquein/munchkin-counter#readme",
-  "devDependencies": {
-    "@vue/component-compiler-utils": "^3.0.0",
-    "bootstrap": "^4.3.1",
-    "bootstrap-vue": "^2.0.0-rc.28",
-    "cssnano": "^4.1.10",
-    "pug": "^2.0.4",
-    "stylus": "^0.54.5",
-    "typescript": "^3.5.3",
-    "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.1.1"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "dependencies": {
-    "vue-hot-reload-api": "^2.3.3"
+    "@babel/core": "^7.8.4",
+    "fable-compiler": "^2.4.15",
+    "fable-loader": "^2.1.8",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
-  "alias": {
-    "vue": "./node_modules/vue/dist/vue.common.js"
+  "devDependencies": {
+    "remotedev": "^0.2.9"
   }
 }
