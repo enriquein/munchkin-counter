@@ -4,8 +4,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Player/Types.fs" />
+    <Compile Include="Player/State.fs" />
     <Compile Include="Player/View.fs" />
-    <Compile Include="Player/StateManagement.fs" />
+    <Compile Include="Player/Player.fs" />
+    <Compile Include="PlayerSetup/Types.fs" />
+    <Compile Include="PlayerSetup/State.fs" />
+    <Compile Include="PlayerSetup/View.fs" />
+    <Compile Include="PlayerSetup/PlayerSetup.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -13,6 +18,7 @@
     <PackageReference Include="Fable.Core" Version="3.1.6" />
     <PackageReference Include="fable.elmish.debugger" Version="3.2.0" />
     <PackageReference Include="Fable.Elmish.React" Version="3.0.1" />
+    <PackageReference Include="Fable.Import.Browser" Version="1.4.0" />
     <PackageReference Include="fable.react" Version="7.0.1" />
   </ItemGroup>
 </Project>
