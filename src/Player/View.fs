@@ -131,7 +131,7 @@ module View =
                 ]
 
         div
-            [   ClassName "col-lg-3 col-md-4 col-sm-6 col-xs-12" ]
+            [   ClassName "col-lg-3 col-md-4 col-sm-6 col-xs-12 bottom-margin" ]
             [   div
                     [   classList [ ("opaque", model.IsDisabled); ("card", true) ] ]
                     [   cardHeader

@@ -13,6 +13,10 @@ body {
     margin-top: 35px;
 }
 
+.bottom-margin {
+    margin-bottom: 12px;
+}
+
 .right-margin {
     margin-right: 15px;
 }

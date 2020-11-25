@@ -19,15 +19,17 @@ type Msg =
     | PlayerEvent of int * Player.Msg
     | EndGame
     | UndoEndGame
+    | ResetGameRequest
     | ResetGame
 
 let init () =
     let (playerSetup, playerSetupCmd) = PlayerSetup.init()
-    { GameStarted = false
-      GameOver = false
-      PlayerSetup = playerSetup
-      Players = [] }
-    , Cmd.map Setup playerSetupCmd
+
+    ({ GameStarted = false
+       GameOver = false
+       PlayerSetup = playerSetup
+       Players = [] }
+    , Cmd.map Setup playerSetupCmd)
 
 let updatePlayer (players: Player.Model list) (index: int) (newState: Player.Model) =
     players
@@ -108,7 +110,19 @@ let update (msg: Msg) (state: AppState) : AppState * Cmd<Msg> =
                       Players = players }
         , Cmd.none)
 
-    | ResetGame -> state, Cmd.none
+    | ResetGameRequest ->
+        let answer = Browser.Dom.window.prompt "Do you want to start a new game? (Yes or No)"
+        let message =
+            if answer.ToLowerInvariant() = "yes" || answer.ToLowerInvariant() = "y"
+            then Cmd.ofMsg ResetGame
+            else Cmd.none
+
+        (state, message)
+
+
+    | ResetGame ->
+        let initialState, _ = init()
+        (initialState, Cmd.none)
 
 // Couldn't figure out how to compose this function in a way that would allow partial application of the last parameter so I can use it to build the PlayerEvent message.
 let playerDispatchWrapper (appDispatch: Msg -> unit) (playerIndex: int) (playerMessage: Player.Msg) : unit =
@@ -134,9 +148,17 @@ let view (state: AppState) (dispatch: Msg -> unit) =
                                 button
                                     [   ClassName "btn btn-danger"
                                         Type "button"
+                                        OnClick (fun _ -> dispatch ResetGameRequest)
                                     ]
                                     [   str "Start new game"]
                             ]
+                    ]
+
+                div
+                    [   ClassName "row top-margin" ]
+                    [   div
+                            [ ClassName "col-md-12" ]
+                            []
                     ]
             ]
 
