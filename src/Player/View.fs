@@ -2,6 +2,7 @@ namespace PlayerImplementation
 
 [<AutoOpen>]
 module View =
+    open System
     open PlayerImplementation.Types
     open Fable.React.Props
     open Fable.React.Helpers
@@ -25,8 +26,9 @@ module View =
     let private statButtons (text: string) (increaseFn: unit -> unit) (decreaseFn: unit -> unit) (valueFn: unit -> int) (hasTopMargin: bool) =
         let levelText =
             span
-                [ ClassName "label-text right-margin" ]
-                [ str text ]
+                [ ClassName "label-text right-margin"
+                  DangerouslySetInnerHTML { __html = text } ]
+                []
 
         let buttons =
             span
@@ -41,11 +43,15 @@ module View =
                 [ ClassName "level-text" ]
                 [ str <| valueFn().ToString() ]
         div
-            [ classList [ ("top-margin", hasTopMargin) ] ]
+            [   classList [ ("top-margin", hasTopMargin) ] ]
             [   levelText
                 buttons
                 totalText
             ]
+
+    let padded (text: string) =
+        let padding = [ for i in 1 .. (7 - text.Length) -> "&nbsp;" ]
+        sprintf "%s%s" text (String.Concat(padding))
 
     let view (model: Model) dispatch : ReactElement =
         let cardHeaderContent =
@@ -75,7 +81,7 @@ module View =
 
         let levelButtons =
             statButtons
-                "Level"
+                (padded "Level")
                 (fun () -> dispatch IncreaseLevel)
                 (fun () -> dispatch DecreaseLevel)
                 (fun () -> model.Level)
@@ -83,7 +89,7 @@ module View =
 
         let bonusesButtons =
             statButtons
-                "Bonuses"
+                (padded "Bonuses")
                 (fun () -> dispatch IncreaseBonuses)
                 (fun () -> dispatch DecreaseBonuses)
                 (fun () -> model.Bonuses)
@@ -91,7 +97,7 @@ module View =
 
         let cursesButtons =
             statButtons
-                "Curses"
+                (padded "Curses")
                 (fun () -> dispatch IncreaseCurses)
                 (fun () -> dispatch DecreaseCurses)
                 (fun () -> model.Curses)
@@ -101,8 +107,10 @@ module View =
             div
                 [   ClassName "top-margin"]
                 [   span
-                        [   ClassName "label-text right-margin" ]
-                        [   str "Total" ]
+                        [   ClassName "label-text right-margin"
+                            DangerouslySetInnerHTML { __html = padded "Total" }
+                        ]
+                        []
                     span
                         [   ClassName "total-text" ]
                         [   str <| model.Total.ToString() ]
