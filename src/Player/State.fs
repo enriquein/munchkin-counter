@@ -14,6 +14,9 @@ module State =
     let private decreaseMin0 = decrease 0
     let private decreaseMin1 = decrease 1
 
+    let private getTotal level bonuses curses : int =
+        level + bonuses - curses
+
     let init (name: string) : Model * Cmd<Msg> =
         (Model.defaultValue(), Cmd.ofMsg (ChangeName name))
 
@@ -21,15 +24,42 @@ module State =
         match msg with
         | ChangeName name ->
             ({ model with Name = name }, Cmd.none)
+
         | IncreaseLevel ->
-            ({ model with Level = model.Level + 1 }, Cmd.none)
+            let level = model.Level + 1
+            ({ model with Level = level
+                          Total = getTotal level model.Bonuses model.Curses }
+            , Cmd.none)
+
         | DecreaseLevel ->
-            ({ model with Level = decreaseMin1 model.Level }, Cmd.none)
+            let level = decreaseMin1 model.Level
+            ({ model with Level = level
+                          Total = getTotal level model.Bonuses model.Curses}
+            , Cmd.none)
+
         | IncreaseBonuses ->
-            ({ model with Bonuses = model.Bonuses + 1 }, Cmd.none)
+            let bonuses = model.Bonuses + 1
+            ({ model with Bonuses = bonuses
+                          Total = getTotal model.Level bonuses model.Curses }
+            , Cmd.none)
+
         | DecreaseBonuses ->
-            ({ model with Bonuses = decreaseMin0 model.Bonuses }, Cmd.none)
+            let bonuses = decreaseMin0 model.Bonuses
+            ({ model with Bonuses = bonuses
+                          Total = getTotal model.Level bonuses model.Curses }
+            , Cmd.none)
+
         | IncreaseCurses ->
-            ({ model with Curses = model.Curses + 1 }, Cmd.none)
+            let curses = model.Curses + 1
+            ({ model with Curses = curses
+                          Total = getTotal model.Level model.Bonuses curses }
+            , Cmd.none)
+
         | DecreaseCurses ->
-            ({ model with Curses = decreaseMin0 model.Curses }, Cmd.none)
+            let curses = decreaseMin0 model.Curses
+            ({ model with Curses = curses
+                          Total = getTotal model.Level model.Bonuses curses }
+            , Cmd.none)
+
+        | UpdateState ->
+            (model, Cmd.none)

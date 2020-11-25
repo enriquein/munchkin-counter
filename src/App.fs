@@ -18,6 +18,7 @@ type Msg =
     | Setup of PlayerSetup.Msg
     | PlayerEvent of int * Player.Msg
     | EndGame
+    | UndoEndGame
     | ResetGame
 
 let init () =
@@ -37,34 +38,75 @@ let updatePlayer (players: Player.Model list) (index: int) (newState: Player.Mod
             else player
         )
 
+let updatePlayerWinnerAndOpaqueValues (players: Player.Model list) =
+    players
+    |> List.map (fun player ->
+                    { player with IsWinner = (player.Level >= 10)
+                                  IsDisabled = (player.Level < 10) }
+                )
+
+let partialTuple first second = (first, second)
+
 let update (msg: Msg) (state: AppState) : AppState * Cmd<Msg> =
     match msg with
-    | Setup setup ->
-        let (res, cmd) = PlayerSetup.update setup state.PlayerSetup
+    | Setup (PlayerSetup.Msg.Submit numberOfPlayers) ->
+        let (updatedModel, cmd) = PlayerSetup.update (PlayerSetup.Msg.Submit numberOfPlayers) state.PlayerSetup
 
-        match setup with
-        | PlayerSetup.Msg.Submit numberOfPlayers ->
-            if res.NumberOfPlayers > 0 then
-                let players = [
-                    for i in 1 .. res.NumberOfPlayers ->
-                        { Player.Model.defaultValue() with Name = sprintf "Player %i" i }
-                ]
-                ({ state with PlayerSetup = res
-                              Players = players
-                              GameStarted = true }
-                , Cmd.none)
-            else
-                ({ state with PlayerSetup = res }
-                , Cmd.none)
+        if numberOfPlayers > 0 then
+            let players = [
+                for i in 1 .. updatedModel.NumberOfPlayers ->
+                    { Player.Model.defaultValue() with Name = sprintf "Player %i" i }
+            ]
+            ({ state with PlayerSetup = updatedModel
+                          Players = players
+                          GameStarted = true }
+            , Cmd.none)
+        else
+            ({ state with PlayerSetup = updatedModel }, Cmd.none)
 
-        | PlayerSetup.Msg.Change _ ->
-            ({ state with PlayerSetup = res }, Cmd.none)
+    | Setup (PlayerSetup.Msg.Change text) ->
+        let (updatedModel, cmd) = PlayerSetup.update (PlayerSetup.Msg.Change text) state.PlayerSetup
+        ({ state with PlayerSetup = updatedModel }, Cmd.none)
 
     | PlayerEvent (playerIndex, playerEvent) ->
-        let (res, cmd) = Player.update playerEvent state.Players.[playerIndex]
-        ({ state with Players = (updatePlayer state.Players playerIndex res) }, Cmd.none)
+        let (updatedModel, cmd) = Player.update playerEvent state.Players.[playerIndex]
 
-    | EndGame -> state, Cmd.none
+        let extraCmd =
+            if updatedModel.Level >= 10 then
+                Cmd.ofMsg EndGame
+            else
+                if updatedModel.IsWinner && updatedModel.Level < 10 then
+                    Cmd.ofMsg UndoEndGame
+                else
+                    Cmd.none
+
+        ({ state with Players = (updatePlayer state.Players playerIndex updatedModel) }
+        , Cmd.batch [ Cmd.map (PlayerEvent << (partialTuple playerIndex)) cmd; extraCmd ])
+
+    | EndGame ->
+        let players =
+            state.Players
+            |> List.map (fun player ->
+                            { player with IsWinner = (player.Level >= 10)
+                                          IsDisabled = (player.Level < 10) }
+                        )
+
+        ({ state with GameOver = true
+                      Players = players }
+        , Cmd.none)
+
+    | UndoEndGame ->
+        let stillHaveWinner = state.Players |> List.exists (fun player -> player.Level >= 10)
+        let players =
+            state.Players
+            |> List.map (fun player ->
+                            { player with IsWinner = (player.Level >= 10)
+                                          IsDisabled = (stillHaveWinner && player.Level < 10) }
+                        )
+
+        ({ state with GameOver = false
+                      Players = players }
+        , Cmd.none)
 
     | ResetGame -> state, Cmd.none
 
@@ -81,7 +123,7 @@ let view (state: AppState) (dispatch: Msg -> unit) =
             [   div
                     [   ClassName "row mt-4 mb-4" ]
                     [   for i in 0 .. (state.PlayerSetup.NumberOfPlayers - 1) ->
-                            Player.view state.Players.[i] (playerDispatchWrapper dispatch i)
+                            Player.view state.Players.[i] (dispatch << PlayerEvent << (partialTuple i))
                     ]
 
                 div

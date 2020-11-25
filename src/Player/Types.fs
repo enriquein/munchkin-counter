@@ -7,7 +7,7 @@ module Types =
           Bonuses: int
           Curses: int
           Total: int
-          IsOpaque: bool
+          IsDisabled: bool
           IsWinner: bool }
           with
             static member defaultValue() =
@@ -16,10 +16,11 @@ module Types =
                   Bonuses = 0
                   Curses = 0
                   Total = 1
-                  IsOpaque = false
+                  IsDisabled = false
                   IsWinner = false }
 
     type Msg =
+        | UpdateState
         | IncreaseLevel
         | DecreaseLevel
         | IncreaseBonuses

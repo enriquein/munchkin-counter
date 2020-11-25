@@ -9,11 +9,12 @@ module View =
     open Fable.React.Standard
     open Fable.React
 
-    let private makeButton (text: string) (fn: unit -> unit) =
+    let private makeButton (text: string) (fn: unit -> unit) (disabled: bool) =
         button
             [   ClassName "btn-lg btn-primary"
                 OnClick (fun _ -> fn())
                 Type "button"
+                Disabled disabled
             ]
             [ str text ]
 
@@ -23,7 +24,7 @@ module View =
             [ ClassName "level-text" ]
             [ str text ]
 
-    let private statButtons (text: string) (increaseFn: unit -> unit) (decreaseFn: unit -> unit) (valueFn: unit -> int) (hasTopMargin: bool) =
+    let private statButtons (text: string) (increaseFn: unit -> unit) (decreaseFn: unit -> unit) (valueFn: unit -> int) (hasTopMargin: bool) (disabled: bool) =
         let levelText =
             span
                 [ ClassName "label-text right-margin"
@@ -33,9 +34,9 @@ module View =
         let buttons =
             span
                 [   ClassName "right-margin" ]
-                [   makeButton "+" increaseFn
+                [   makeButton "+" increaseFn disabled
                     span [] [ str " "]
-                    makeButton "-" decreaseFn
+                    makeButton "-" decreaseFn disabled
                 ]
 
         let totalText =
@@ -69,6 +70,7 @@ module View =
                             target.select()
                         )
                         OnChange (fun e -> dispatch (ChangeName e.Value))
+                        Disabled model.IsDisabled
                     ]
 
         let cardHeader =
@@ -86,6 +88,7 @@ module View =
                 (fun () -> dispatch DecreaseLevel)
                 (fun () -> model.Level)
                 false
+                model.IsDisabled
 
         let bonusesButtons =
             statButtons
@@ -94,6 +97,7 @@ module View =
                 (fun () -> dispatch DecreaseBonuses)
                 (fun () -> model.Bonuses)
                 true
+                model.IsDisabled
 
         let cursesButtons =
             statButtons
@@ -102,6 +106,7 @@ module View =
                 (fun () -> dispatch DecreaseCurses)
                 (fun () -> model.Curses)
                 true
+                model.IsDisabled
 
         let totalSection =
             div
@@ -128,7 +133,7 @@ module View =
         div
             [   ClassName "col-lg-3 col-md-4 col-sm-6 col-xs-12" ]
             [   div
-                    [   classList [ ("opaque", model.IsOpaque); ("card", true) ] ]
+                    [   classList [ ("opaque", model.IsDisabled); ("card", true) ] ]
                     [   cardHeader
                         cardBody
                     ]
