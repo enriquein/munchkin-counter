@@ -8,7 +8,7 @@ module.exports = {
     mode: "development",
     entry: "./src/App.fsproj",
     output: {
-        path: path.join(__dirname, "./dist"),
+        path: path.join(__dirname, "./public"),
         filename: "bundle.js",
     },
     devServer: {

@@ -164,5 +164,7 @@ let view (state: AppState) (dispatch: Msg -> unit) =
 
 Program.mkProgram init update view
 |> Program.withReactHydrate "app"
+#if DEBUG
 |> Program.withDebugger
+#endif
 |> Program.run
