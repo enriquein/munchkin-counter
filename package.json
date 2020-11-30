@@ -6,16 +6,24 @@
     "dist": "webpack --mode production"
   },
   "dependencies": {
-    "@babel/core": "^7.8.4",
-    "fable-compiler": "^2.4.15",
-    "fable-loader": "^2.1.8",
+    "@babel/core": "^7.12.9",
+    "classnames": "^2.2.6",
+    "fable-compiler": "^2.13.0",
+    "fable-loader": "^2.1.9",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primereact": "^5.0.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "react-transition-group": "^2.5.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
-    "remotedev": "^0.2.9"
+    "css-loader": "^5.0.1",
+    "file-loader": "^6.2.0",
+    "remotedev": "^0.2.9",
+    "style-loader": "^2.0.0"
   }
 }
