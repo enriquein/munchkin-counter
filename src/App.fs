@@ -3,10 +3,25 @@ module App
 open Elmish
 open Elmish.Debug
 open Elmish.React
-open Fable.React
+open Fable.Core
+open Fable.Core.JsInterop
 open Fable.Import
+open Fable.React
 open Fable.React.Props
-open Fable.React.Helpers
+
+// Imports for webpack
+importSideEffects "primereact/resources/themes/saga-blue/theme.css"
+importSideEffects "primereact/resources/primereact.min.css"
+importSideEffects "primeicons/primeicons.css"
+importSideEffects "primeflex/primeflex.css"
+
+// Initialize PrimeReact
+type IPrimeReact =
+    abstract ripple: bool with get, set
+
+[<ImportDefault("primereact/utils")>]
+let PrimeReact: IPrimeReact = jsNative
+PrimeReact.ripple <- true
 
 type AppState =
     { GameStarted: bool
@@ -133,33 +148,33 @@ let view (state: AppState) (dispatch: Msg -> unit) =
         PlayerSetup.view state.PlayerSetup (dispatch << Setup)
     else
         div
-            [   ClassName "container-fluid" ]
+            [   (*ClassName "csontainer-fluid"*)  ]
             [   div
-                    [   ClassName "row mt-4 mb-4" ]
+                    [   HTMLAttr.Custom ("className", "p-grid") ]
                     [   for i in 0 .. (state.PlayerSetup.NumberOfPlayers - 1) ->
                             Player.view state.Players.[i] (dispatch << PlayerEvent << (partialTuple i))
                     ]
 
-                div
-                    [   ClassName "row" ]
-                    [   div
-                            [   ClassName "col-md-12" ]
-                            [
-                                button
-                                    [   ClassName "btn btn-danger"
-                                        Type "button"
-                                        OnClick (fun _ -> dispatch ResetGameRequest)
-                                    ]
-                                    [   str "Start new game"]
-                            ]
-                    ]
+                // div
+                //     [   ClassName "row" ]
+                //     [   div
+                //             [   ClassName "col-md-12" ]
+                //             [
+                //                 button
+                //                     [   ClassName "btn btn-danger"
+                //                         Type "button"
+                //                         OnClick (fun _ -> dispatch ResetGameRequest)
+                //                     ]
+                //                     [   str "Start new game"]
+                //             ]
+                //     ]
 
-                div
-                    [   ClassName "row top-margin" ]
-                    [   div
-                            [ ClassName "col-md-12" ]
-                            []
-                    ]
+                // div
+                //     [   ClassName "row top-margin" ]
+                //     [   div
+                //             [ ClassName "col-md-12" ]
+                //             []
+                //     ]
             ]
 
 Program.mkProgram init update view
