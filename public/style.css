@@ -1,7 +1,3 @@
-body {
-    font-family: Consolas, Menlo, monospace;
-}
-
 .nav,
 .pagination,
 .carousel,
@@ -31,8 +27,7 @@ body {
 }
 
 .total-text {
-    font-size: 48px;
-    vertical-align: baseline;
+    font-size: 36px;
     color: green;
 }
 
@@ -47,5 +42,13 @@ body {
 .toggled { max-height: 5px; min-height: 5px; height: 5px; }
 
 .name-field {
-    display: inline-block !important;
+    width: 100%;
+}
+
+div.player-panel > div.p-panel > div.p-panel-header > span.p-panel-title {
+    width: 100%;
+}
+
+.flex-align-center {
+    align-items: center;
 }

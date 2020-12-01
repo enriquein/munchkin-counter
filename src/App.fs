@@ -7,7 +7,7 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import
 open Fable.React
-open Fable.React.Props
+open Prime
 
 // Imports for webpack
 importSideEffects "primereact/resources/themes/saga-blue/theme.css"
@@ -134,47 +134,33 @@ let update (msg: Msg) (state: AppState) : AppState * Cmd<Msg> =
 
         (state, message)
 
-
     | ResetGame ->
         let initialState, _ = init()
         (initialState, Cmd.none)
-
-// Couldn't figure out how to compose this function in a way that would allow partial application of the last parameter so I can use it to build the PlayerEvent message.
-let playerDispatchWrapper (appDispatch: Msg -> unit) (playerIndex: int) (playerMessage: Player.Msg) : unit =
-    appDispatch <| PlayerEvent (playerIndex, playerMessage)
 
 let view (state: AppState) (dispatch: Msg -> unit) =
     if not state.GameStarted then
         PlayerSetup.view state.PlayerSetup (dispatch << Setup)
     else
         div
-            [   (*ClassName "csontainer-fluid"*)  ]
+            [ ]
             [   div
-                    [   HTMLAttr.Custom ("className", "p-grid") ]
+                    [   primeClasses "p-grid" ]
                     [   for i in 0 .. (state.PlayerSetup.NumberOfPlayers - 1) ->
                             Player.view state.Players.[i] (dispatch << PlayerEvent << (partialTuple i))
                     ]
 
-                // div
-                //     [   ClassName "row" ]
-                //     [   div
-                //             [   ClassName "col-md-12" ]
-                //             [
-                //                 button
-                //                     [   ClassName "btn btn-danger"
-                //                         Type "button"
-                //                         OnClick (fun _ -> dispatch ResetGameRequest)
-                //                     ]
-                //                     [   str "Start new game"]
-                //             ]
-                //     ]
-
-                // div
-                //     [   ClassName "row top-margin" ]
-                //     [   div
-                //             [ ClassName "col-md-12" ]
-                //             []
-                //     ]
+                div
+                    [   primeClasses "p-grid" ]
+                    [   div
+                            [   primeClasses "p-col-12" ]
+                            [   primeButton
+                                    {|  className = "p-button-danger"
+                                        label = "Start new game"
+                                        onClick = (fun _ -> dispatch ResetGameRequest)
+                                    |}
+                            ]
+                    ]
             ]
 
 Program.mkProgram init update view

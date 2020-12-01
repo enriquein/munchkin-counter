@@ -3,36 +3,33 @@ namespace PlayerSetupImplementation
 [<AutoOpen>]
 module View =
     open PlayerSetupImplementation.Types
-    open Fable.React.Props
-    open Fable.React.Helpers
-    open Fable.React.Standard
+    open Browser.Types
     open Fable.React
+    open Fable.React.Props
+    open Prime
 
     let view (model: Model) dispatch =
         div
-            [   ClassName "container-fluid" ]
+            [   primeClasses "p-grid"
+                Style [ MarginTop "15px"; MarginLeft "15px" ]
+            ]
             [   div
-                    [   ClassName "row mt-4"]
+                    [   primeClasses "p-col-4 p-col-sm-6" ]
                     [   div
-                            [   ClassName "col-md-4 col-sm-6" ]
-                            [   div
-                                    [   ClassName "form-group"]
-                                    [   label [] [ str "How many players are going to play?"]
-                                        input [ ClassName "form-control"
-                                                Type "text"
-                                                Value model.NumberOfPlayers
-                                                OnChange (fun e -> dispatch <| Change e.Value ) ]
-                                    ]
-
-                                button
-                                    [   ClassName "btn btn-primary"
-                                        Type "button"
-                                        OnClick (fun _ -> dispatch <| Submit model.NumberOfPlayers)
-                                    ]
-                                    [   str "Start Game"
-                                    ]
+                            [   primeClasses "p-field p-component"]
+                            [   label
+                                    [   primeClasses "p-d-block" ]
+                                    [   str "How many players are going to play?" ]
+                                primeTextBox
+                                    {|  className = "p-d-block"
+                                        value = model.NumberOfPlayers
+                                        onChange = (fun (e: Event) -> dispatch <| Change e.Value )
+                                    |}
                             ]
 
+                        primeButton
+                            {| onClick = (fun _ -> dispatch <| Submit model.NumberOfPlayers)
+                               label = "Start Game"
+                            |}
                     ]
-
             ]

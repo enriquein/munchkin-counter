@@ -3,6 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Prime.fs" />
     <Compile Include="Player/Types.fs" />
     <Compile Include="Player/State.fs" />
     <Compile Include="Player/View.fs" />

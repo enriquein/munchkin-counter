@@ -2,30 +2,13 @@ namespace PlayerImplementation
 
 [<AutoOpen>]
 module View =
-    open System
     open PlayerImplementation.Types
-    open Fable.Core
-    open Fable.Core.JsInterop
     open Browser.Types
     open Fable.React.Props
     open Fable.React.Helpers
     open Fable.React.Standard
     open Fable.React
-
-    let primeClasses (classNames: string) : HTMLAttr =
-        HTMLAttr.Custom ("className", classNames)
-
-    let private primeButton (props: obj) : ReactElement =
-        ofImport "Button" "primereact/button" props []
-
-    let private primePanel (props: obj) (elems: ReactElement list) : ReactElement =
-        ofImport "Panel" "primereact/panel" props elems
-
-    let private primeCard (props: obj) (elems: ReactElement list) : ReactElement =
-        ofImport "Card" "primereact/card" props elems
-
-    let private primeTextBox (props: obj) : ReactElement =
-        ofImport "InputText" "primereact/inputtext" props []
+    open Prime
 
     let private makeButton (text: string) (fn: unit -> unit) (disabled: bool) =
         primeButton
@@ -66,6 +49,7 @@ module View =
                     Style [Width "30px"]
                 ]
                 [   str <| valueFn().ToString() ]
+
         div
             [   primeClasses "p-grid flex-align-center" ]
             [   levelText
