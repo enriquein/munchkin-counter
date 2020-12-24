@@ -15,6 +15,11 @@ importSideEffects "primereact/resources/primereact.min.css"
 importSideEffects "primeicons/primeicons.css"
 importSideEffects "primeflex/primeflex.css"
 
+// Remote debugging
+#if DEBUG
+importSideEffects "remotedev"
+#endif
+
 // Initialize PrimeReact
 type IPrimeReact =
     abstract ripple: bool with get, set
