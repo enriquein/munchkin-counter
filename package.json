@@ -1,18 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack",
-    "dist": "webpack --mode production"
+    "start": "dotnet fable watch src/ --outDir .genJs --run webpack-dev-server",
+    "build": "dotnet fable src/ --outDir .genJs --run webpack",
+    "dist": "dotnet fable src/ --outDir .genJs --run webpack --mode production"
   },
   "dependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.12.10",
     "classnames": "^2.2.6",
-    "fable-compiler": "^2.13.0",
-    "fable-loader": "^2.1.9",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
-    "primereact": "^5.0.1",
+    "primereact": "^5.0.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-transition-group": "^2.5.1",

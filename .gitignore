@@ -5,6 +5,10 @@ temp/**
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Fable temp output
+*.fs.js
+.genJs/
+
 # User-specific files
 *.suo
 *.user
