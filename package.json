@@ -1,27 +1,27 @@
 {
-  "private": true,
+  "name": "munchkin-counter",
+  "version": "0.0.1",
   "scripts": {
-    "start": "dotnet fable watch src/ --outDir .genJs --run webpack-dev-server",
-    "build": "dotnet fable src/ --outDir .genJs --run webpack",
-    "dist": "dotnet fable src/ --outDir .genJs --run webpack --mode production"
+    "re-build": "rescript",
+    "re-clean": "rescript clean -with-deps",
+    "re-start": "rescript build -w",
+    "dev": "parcel public/index.html",
+    "build": "parcel build public/index.html"
   },
+  "keywords": [
+    "rescript"
+  ],
+  "author": "",
+  "license": "GPLv3",
   "dependencies": {
-    "@babel/core": "^7.12.10",
-    "classnames": "^2.2.6",
-    "primeflex": "^2.0.0",
+    "@rescript/react": "^0.10.3",
     "primeicons": "^4.1.0",
-    "primereact": "^5.0.2",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-transition-group": "^2.5.1",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "primereact": "^6.5.0",
+    "react-transition-group": "^4.4.1",
+    "rescript": "*"
   },
   "devDependencies": {
-    "css-loader": "^5.0.1",
-    "file-loader": "^6.2.0",
-    "remotedev": "^0.2.9",
-    "style-loader": "^2.0.0"
+    "http-server": "^0.12.3",
+    "parcel-bundler": "^1.12.5"
   }
 }
