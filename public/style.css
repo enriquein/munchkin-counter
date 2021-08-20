@@ -45,10 +45,17 @@
     width: 100%;
 }
 
-div.player-panel > div.p-panel > div.p-panel-header > span.p-panel-title {
+div.player-panel > div.panel > div.panel-header > span.panel-title {
     width: 100%;
 }
 
 .flex-align-center {
     align-items: center;
+}
+
+.error-text {
+    font-family: sans-serif;
+    color: red;
+    font-weight: bold;
+    padding-top: 13px;
 }
